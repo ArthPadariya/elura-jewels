@@ -44,7 +44,7 @@ function FooterSection() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-black/8 pt-6 text-xs uppercase tracking-[0.18em] text-muted [&>p:first-child]:hidden sm:grid sm:grid-cols-3 sm:items-center">
+        <div className="mt-14 grid gap-3 border-t border-black/8 pt-6 text-xs uppercase tracking-[0.18em] text-muted [&>p:first-child]:hidden sm:grid-cols-3 sm:items-center">
           <p>© 2026 ELURA Jewels. All rights reserved.</p>
           <p className="sm:justify-self-start">Designed &amp; Developed by Ecliptix Solutions</p>
           <p className="sm:justify-self-center">&copy; 2026 ELURA Jewels. All rights reserved.</p>

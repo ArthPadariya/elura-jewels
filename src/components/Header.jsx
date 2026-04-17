@@ -59,16 +59,16 @@ function Header({ onCartOpen }) {
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition duration-300 ${headerClasses}`}>
         <div className="section-shell">
-          <div className="flex items-center justify-between gap-4 py-5">
-            <Link to="/" className="flex items-center">
+          <div className="navbar flex h-[60px] items-center justify-between gap-4 sm:h-[72px]">
+            <Link to="/" className="navbar-logo flex h-full items-center py-0">
               <img
                 src={logoImage}
                 alt="ELURA Jewels"
-                className="h-14 w-auto object-contain sm:h-16"
+                className="block h-[26px] w-auto object-contain sm:h-[32px] md:h-[40px]"
               />
             </Link>
 
-            <nav className="hidden items-center gap-8 lg:flex">
+            <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
               {navigationItems.map((item) => (
                 <NavLink
                   key={item.label}
@@ -149,7 +149,7 @@ function Header({ onCartOpen }) {
       />
 
       <div
-        className={`fixed inset-x-5 top-6 z-[70] mx-auto w-full max-w-4xl transition duration-300 sm:top-10 ${
+        className={`fixed inset-x-5 top-4 z-[70] mx-auto w-full max-w-4xl transition duration-300 sm:top-6 ${
           searchOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
         }`}
       >
@@ -214,7 +214,7 @@ function Header({ onCartOpen }) {
       />
 
       <div
-        className={`fixed inset-x-4 top-[76px] z-50 rounded-[18px] bg-ivory/98 p-5 shadow-[0_20px_40px_rgba(27,24,19,0.08)] transition lg:hidden ${
+        className={`fixed inset-x-4 top-[68px] z-50 rounded-[18px] bg-ivory/98 p-5 shadow-[0_20px_40px_rgba(27,24,19,0.08)] transition sm:top-[80px] lg:hidden ${
           menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0 pointer-events-none'
         }`}
       >

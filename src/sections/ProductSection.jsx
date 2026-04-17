@@ -11,7 +11,7 @@ function ProductSection({ products }) {
           <SectionHeading
             eyebrow="Featured"
             title="Selected pieces for a refined jewellery wardrobe"
-            description="A simplified edit of bestselling necklaces, earrings, rings, and bracelets."
+            description="A simplified edit of bestselling necklaces, earrings, rings, bangles, and bracelets."
           />
           <Link to="/shop" className="line-link self-start sm:self-auto">
             View All Products

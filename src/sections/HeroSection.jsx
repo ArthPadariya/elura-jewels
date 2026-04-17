@@ -19,7 +19,7 @@ function HeroSection({ slides }) {
 
   return (
     <section className="relative">
-      <div className="relative h-[76vh] min-h-[36rem] overflow-hidden sm:h-[84vh]">
+      <div className="relative h-[76vh] min-h-[36rem] overflow-hidden sm:mx-4 sm:rounded-[14px] sm:h-[84vh] lg:rounded-[16px]">
         {slides.map((slide, index) => {
           const isActive = index === activeIndex
 
@@ -37,9 +37,14 @@ function HeroSection({ slides }) {
                   isActive ? 'scale-105' : 'scale-100'
                 }`}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/18 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/12 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/5" />
               <div className="section-shell relative z-10 flex h-full items-end pb-14 sm:pb-20">
-                <div className="max-w-2xl text-white">
+                <div
+                  className={`max-w-2xl text-white transition duration-700 ${
+                    isActive ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
+                  }`}
+                >
                   <p className="text-[10px] font-semibold uppercase tracking-[0.42em] text-gold">
                     {slide.label}
                   </p>

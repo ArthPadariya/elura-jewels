@@ -5,6 +5,10 @@ import braceletDisplay from '../assets/photos/bracelet-display.jpg'
 import categoryDisplay from '../assets/photos/category-display.jpg'
 import earringsOne from '../assets/photos/earrings-1.jpg'
 import earringsTwo from '../assets/photos/earrings-2.jpg'
+import heroLuxuryBangles from '../assets/photos/hero-luxury-bangles-v2.png'
+import heroLuxuryEarrings from '../assets/photos/hero-luxury-earrings-v2.png'
+import heroLuxuryNecklace from '../assets/photos/hero-luxury-necklace-v2.png'
+import heroLuxuryRings from '../assets/photos/hero-luxury-rings-v2.png'
 import heroModel from '../assets/photos/hero-model.jpg'
 import heroNecklace from '../assets/photos/hero-necklace.jpg'
 import heroPearl from '../assets/photos/hero-pearl.jpg'
@@ -24,6 +28,7 @@ export const formatCurrency = (price) =>
 export const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Shop', href: '/shop' },
+  { label: 'Bangles', href: '/shop?category=Bangles' },
   { label: 'Collections', href: '/collections' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -32,39 +37,39 @@ export const navigationItems = [
 export const heroSlides = [
   {
     id: 'slide-1',
-    label: 'Modern Jewellery',
-    image: heroStudio,
+    label: 'ELURA Collection',
+    image: heroLuxuryNecklace,
     heading: 'Modern & Contemporary Jewellery',
-    subtext: 'Crafted with Precision. Designed to Endure.',
+    subtext: 'Crafted with precision and softened by a quieter, luxury finish.',
     ctaLabel: 'Shop Collection',
     ctaHref: '/shop',
   },
   {
     id: 'slide-2',
     label: 'Bridal Collection',
-    image: heroModel,
-    heading: 'Bridal pieces with a quieter sense of luxury',
-    subtext: 'Elegant forms and polished detail for ceremonies, celebrations, and meaningful gifting.',
+    image: heroLuxuryRings,
+    heading: 'Bridal pieces with polished, enduring detail',
+    subtext: 'Signature rings and luminous settings designed for modern ceremonies and lasting wear.',
     ctaLabel: 'Explore Bridal Styles',
     ctaHref: '/collections',
   },
   {
     id: 'slide-3',
     label: 'Everyday Luxury',
-    image: heroNecklace,
+    image: heroLuxuryEarrings,
     heading: 'Everyday Luxury',
-    subtext: 'Designed to layer beautifully from weekday dressing through to evening occasions.',
-    ctaLabel: 'View Necklaces',
-    ctaHref: '/shop?category=Necklaces',
+    subtext: 'Fine earrings and pendants made to move easily from weekday dressing into evening occasions.',
+    ctaLabel: 'View Earrings',
+    ctaHref: '/shop?category=Earrings',
   },
   {
     id: 'slide-4',
     label: 'Signature Pieces',
-    image: heroPearl,
-    heading: 'Signature Pieces',
-    subtext: 'Modern silhouettes inspired by light, detail, and lasting wear.',
-    ctaLabel: 'Discover The Edit',
-    ctaHref: '/shop',
+    image: heroLuxuryBangles,
+    heading: 'Signature bangles with clean, sculptural shine',
+    subtext: 'Contemporary gold forms with refined emerald accents and an editorial sense of restraint.',
+    ctaLabel: 'Shop Bangles',
+    ctaHref: '/shop?category=Bangles',
   },
 ]
 
@@ -92,15 +97,15 @@ export const collectionCards = [
     image: ringTwo,
   },
   {
-    title: 'Bracelets',
-    subtitle: 'Minimal pieces with soft shine and elegant detail.',
-    category: 'Bracelets',
-    href: '/shop?category=Bracelets',
+    title: 'Bangles',
+    subtitle: 'Sculptural gold forms finished with a clean, modern shine.',
+    category: 'Bangles',
+    href: '/shop?category=Bangles',
     image: braceletDisplay,
   },
 ]
 
-export const productFilters = ['All', 'Necklaces', 'Earrings', 'Rings', 'Bracelets']
+export const productFilters = ['All', 'Necklaces', 'Earrings', 'Rings', 'Bracelets', 'Bangles']
 
 export const products = [
   {
@@ -207,12 +212,12 @@ export const products = [
   },
   {
     id: 4,
-    slug: 'velora-cuff-bracelet',
-    name: 'Velora Cuff Bracelet',
-    category: 'Bracelets',
+    slug: 'velora-sculpted-bangle',
+    name: 'Velora Sculpted Bangle',
+    category: 'Bangles',
     price: 289,
     description:
-      'An open cuff bracelet with clean lines and a subtle luxury finish, designed to feel both modern and easy to wear.',
+      'A sculpted gold bangle with clean lines and a subtle luxury finish, designed to feel modern, polished, and easy to wear.',
     materials: [
       '18ct gold-plated metal',
       'Sculpted cuff profile',
@@ -220,7 +225,7 @@ export const products = [
     ],
     details: [
       'Sits comfortably for everyday styling',
-      'Pairs well with watches and slim bangles',
+      'Pairs well with slimmer bracelets and layered rings',
       'Keep dry and store in the original pouch',
     ],
     images: [braceletOne, braceletTwo, braceletDisplay],
@@ -365,7 +370,7 @@ export const brandStory = {
   features: [
     'Designed for elegant day-to-evening wear',
     'Premium finishes and gift-ready presentation',
-    'Focused edits across necklaces, rings, earrings, and bracelets',
+    'Focused edits across necklaces, rings, earrings, bangles, and bracelets',
   ],
 }
 
@@ -417,9 +422,9 @@ export const promoBanners = [
     label: 'Everyday Luxury',
     image: braceletDisplay,
     heading: 'Pieces to wear often and keep close',
-    subtext: 'A clean, versatile edit of bracelets, rings, earrings, and necklaces.',
-    ctaLabel: 'Shop Bracelets',
-    ctaHref: '/shop?category=Bracelets',
+    subtext: 'A clean, versatile edit of bangles, rings, earrings, and necklaces.',
+    ctaLabel: 'Shop Bangles',
+    ctaHref: '/shop?category=Bangles',
   },
 ]
 
@@ -470,6 +475,7 @@ export const footerGroups = {
     { label: 'Earrings', href: '/shop?category=Earrings' },
     { label: 'Rings', href: '/shop?category=Rings' },
     { label: 'Bracelets', href: '/shop?category=Bracelets' },
+    { label: 'Bangles', href: '/shop?category=Bangles' },
   ],
   ABOUT: [
     { label: 'Our Story', href: '/about' },
