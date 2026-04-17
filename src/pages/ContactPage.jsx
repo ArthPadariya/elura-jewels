@@ -1,0 +1,138 @@
+import { Mail, MapPin, Phone } from 'lucide-react'
+import { useState } from 'react'
+import SectionHeading from '../components/SectionHeading.jsx'
+import { contactDetails } from '../data/siteData.js'
+
+function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  })
+  const [submitted, setSubmitted] = useState(false)
+
+  return (
+    <div className="section-spacing">
+      <div className="section-shell">
+        <div className="grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
+          <div>
+            <SectionHeading
+              eyebrow="Contact"
+              title="Get in touch with ELURA"
+              description="For product questions, returns, delivery updates, or general support, send us a message and we'll reply by email."
+            />
+
+            <div className="mt-8 space-y-6">
+              <div className="flex items-start gap-4 border-b border-black/8 pb-6">
+                <Mail className="mt-1 h-4 w-4 text-gold" />
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
+                    Email
+                  </p>
+                  <p className="mt-2 text-base">{contactDetails.email}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 border-b border-black/8 pb-6">
+                <Phone className="mt-1 h-4 w-4 text-gold" />
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
+                    Phone
+                  </p>
+                  <p className="mt-2 text-base">{contactDetails.phone}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 pb-2">
+                <MapPin className="mt-1 h-4 w-4 text-gold" />
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-muted">
+                    Location
+                  </p>
+                  <p className="mt-2 text-base">{contactDetails.location}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:pt-10">
+            <form
+              className="space-y-7"
+              onSubmit={(event) => {
+                event.preventDefault()
+                setSubmitted(true)
+              }}
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="mb-3 block text-xs font-medium uppercase tracking-[0.24em] text-muted"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    value={formData.name}
+                    onChange={(event) =>
+                      setFormData((current) => ({ ...current, name: event.target.value }))
+                    }
+                    className="input-shell"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-3 block text-xs font-medium uppercase tracking-[0.24em] text-muted"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(event) =>
+                      setFormData((current) => ({ ...current, email: event.target.value }))
+                    }
+                    className="input-shell"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="mb-3 block text-xs font-medium uppercase tracking-[0.24em] text-muted"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows="7"
+                  value={formData.message}
+                  onChange={(event) =>
+                    setFormData((current) => ({ ...current, message: event.target.value }))
+                  }
+                  className="input-shell resize-none"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="btn-primary">
+                Send Message
+              </button>
+
+              {submitted && (
+                <p className="text-sm text-muted">
+                  Thanks. Your message has been prepared successfully.
+                </p>
+              )}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default ContactPage
