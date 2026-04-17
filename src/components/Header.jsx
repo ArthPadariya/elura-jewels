@@ -64,7 +64,7 @@ function Header({ onCartOpen }) {
               <img
                 src={logoImage}
                 alt="ELURA Jewels"
-                className="block h-[26px] w-auto object-contain sm:h-[32px] md:h-[40px]"
+                className="block h-[32px] w-auto object-contain min-[481px]:h-[36px] md:h-[40px]"
               />
             </Link>
 
