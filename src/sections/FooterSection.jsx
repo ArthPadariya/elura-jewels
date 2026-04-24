@@ -7,8 +7,12 @@ function FooterSection() {
     <footer className="border-t border-black/8 bg-white/45">
       <div className="section-shell py-16 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-6">
-            <img src={logoImage} alt="ELURA Jewels" className="h-24 w-auto object-contain" />
+          <div>
+            <img
+              src={logoImage}
+              alt="ELURA Jewels"
+              className="mb-3 h-12 w-auto object-contain"
+            />
             <p className="max-w-xl text-sm leading-7 text-muted sm:text-base">
               Modern and contemporary jewellery with a clean, premium feel shaped for
               everyday luxury and occasion dressing.
@@ -21,7 +25,11 @@ function FooterSection() {
                 <p className="section-eyebrow">{groupName}</p>
                 <div className="mt-4 space-y-3 text-sm text-muted">
                   {links.map((link) => (
-                    <Link key={link.label} to={link.href} className="block transition hover:text-gold">
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      className="link-animated footer-link"
+                    >
                       {link.label}
                     </Link>
                   ))}
@@ -32,10 +40,16 @@ function FooterSection() {
             <div>
               <p className="section-eyebrow">CONTACT</p>
               <div className="mt-4 space-y-3 text-sm text-muted">
-                <a href={`mailto:${contactDetails.email}`} className="block transition hover:text-gold">
+                <a
+                  href={`mailto:${contactDetails.email}`}
+                  className="link-animated footer-link"
+                >
                   {contactDetails.email}
                 </a>
-                <a href={`tel:${contactDetails.phone.replace(/\s+/g, '')}`} className="block transition hover:text-gold">
+                <a
+                  href={`tel:${contactDetails.phone.replace(/\s+/g, '')}`}
+                  className="link-animated footer-link"
+                >
                   {contactDetails.phone}
                 </a>
                 <p>{contactDetails.location}</p>
@@ -44,10 +58,9 @@ function FooterSection() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-3 border-t border-black/8 pt-6 text-xs uppercase tracking-[0.18em] text-muted [&>p:first-child]:hidden sm:grid-cols-3 sm:items-center">
-          <p>© 2026 ELURA Jewels. All rights reserved.</p>
+        <div className="mt-14 grid gap-3 border-t border-black/8 pt-6 text-xs uppercase tracking-[0.18em] text-muted sm:grid-cols-2 sm:items-center">
           <p className="sm:justify-self-start">Designed &amp; Developed by Ecliptix Solutions</p>
-          <p className="sm:justify-self-center">&copy; 2026 ELURA Jewels. All rights reserved.</p>
+          <p className="sm:justify-self-end">&copy; 2026 ELURA Jewels. All rights reserved.</p>
         </div>
       </div>
     </footer>

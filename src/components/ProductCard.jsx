@@ -1,10 +1,12 @@
 import { Heart } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../data/siteData.js'
 import { useStore } from '../context/StoreContext.jsx'
 
 function ProductCard({ product }) {
-  const { wishlistIds, toggleWishlist } = useStore()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { user, wishlistIds, toggleWishlist } = useStore()
   const isWishlisted = wishlistIds.includes(product.id)
 
   return (
@@ -25,6 +27,17 @@ function ProductCard({ product }) {
             type="button"
             onClick={(event) => {
               event.preventDefault()
+
+              if (!user) {
+                navigate('/login', {
+                  state: {
+                    redirectTo: `${location.pathname}${location.search}`,
+                    notice: 'Please login to add items to wishlist',
+                  },
+                })
+                return
+              }
+
               toggleWishlist(product.id)
             }}
             className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center text-white drop-shadow-[0_6px_12px_rgba(0,0,0,0.28)] transition duration-300 hover:scale-110 hover:text-gold"
@@ -35,7 +48,7 @@ function ProductCard({ product }) {
         </div>
 
         <div className="flex items-start justify-between gap-4 px-1 py-5">
-          <h3 className="max-w-[15rem] text-lg font-medium leading-snug text-ink">
+          <h3 className="product-name-animated max-w-[15rem] text-lg font-medium leading-snug text-ink">
             {product.name}
           </h3>
           <p className="pt-0.5 text-sm font-semibold text-ink">{formatCurrency(product.price)}</p>

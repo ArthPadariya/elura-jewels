@@ -1,6 +1,7 @@
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../data/siteData.js'
+import { useStore } from '../context/StoreContext.jsx'
 
 function CartDrawer({
   isOpen,
@@ -9,6 +10,8 @@ function CartDrawer({
   onUpdateQuantity,
   onRemove,
 }) {
+  const navigate = useNavigate()
+  const { user } = useStore()
   const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0)
 
   return (
@@ -71,7 +74,7 @@ function CartDrawer({
                         <Link
                           to={`/product/${item.slug}`}
                           onClick={onClose}
-                          className="mt-2 block text-lg font-medium text-ink"
+                          className="product-name-animated mt-2 block w-fit text-lg font-medium text-ink"
                         >
                           {item.name}
                         </Link>
@@ -124,7 +127,25 @@ function CartDrawer({
                 Taxes and shipping calculated at checkout
               </p>
               <div className="mt-6 grid gap-3">
-                <button type="button" className="btn-primary">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose()
+
+                    if (user) {
+                      navigate('/checkout')
+                      return
+                    }
+
+                    navigate('/login', {
+                      state: {
+                        redirectTo: '/checkout',
+                        notice: 'Please login to continue to checkout',
+                      },
+                    })
+                  }}
+                  className="btn-primary"
+                >
                   Checkout
                 </button>
                 <Link to="/shop" onClick={onClose} className="line-link text-center">

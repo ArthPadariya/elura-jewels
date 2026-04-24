@@ -24,6 +24,7 @@ function StoreProvider({ children }) {
     readStoredValue('elura-wishlist', []),
   )
   const [user, setUser] = useState(() => readStoredValue('elura-user', null))
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
     window.localStorage.setItem('elura-cart', JSON.stringify(cartItems))
@@ -50,7 +51,12 @@ function StoreProvider({ children }) {
 
   const wishlistProducts = products.filter((product) => wishlistIds.includes(product.id))
 
-  const addToCart = (product, quantity = 1) => {
+  const openCart = () => setIsCartOpen(true)
+  const closeCart = () => setIsCartOpen(false)
+
+  const addToCart = (product, quantity = 1, options = {}) => {
+    const { openDrawer = true } = options
+
     setCartItems((current) => {
       const existing = current.find((item) => item.id === product.id)
 
@@ -64,6 +70,10 @@ function StoreProvider({ children }) {
 
       return [...current, { ...product, quantity }]
     })
+
+    if (openDrawer) {
+      openCart()
+    }
   }
 
   const updateCartQuantity = (productId, nextQuantity) => {
@@ -82,6 +92,8 @@ function StoreProvider({ children }) {
   const removeFromCart = (productId) => {
     setCartItems((current) => current.filter((item) => item.id !== productId))
   }
+
+  const clearCart = () => setCartItems([])
 
   const toggleWishlist = (productId) => {
     setWishlistIds((current) =>
@@ -118,13 +130,17 @@ function StoreProvider({ children }) {
         cartItems,
         cartCount,
         cartSubtotal,
+        isCartOpen,
         wishlistIds,
         wishlistProducts,
         user,
         orders: accountOrders,
+        openCart,
+        closeCart,
         addToCart,
         updateCartQuantity,
         removeFromCart,
+        clearCart,
         toggleWishlist,
         login,
         googleLogin,

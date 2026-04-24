@@ -123,6 +123,13 @@ function ProductPageDetail({ product, addToCart, relatedProducts }) {
                 >
                   Add to Cart
                 </button>
+                <button
+                  type="button"
+                  onClick={() => addToCart(product, quantity)}
+                  className="btn-secondary"
+                >
+                  Buy Now
+                </button>
               </div>
             </div>
 

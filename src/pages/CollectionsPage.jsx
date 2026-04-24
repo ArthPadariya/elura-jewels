@@ -13,8 +13,16 @@ function CollectionsPage() {
         />
 
         <div className="grid gap-6 lg:grid-cols-2">
-          {collectionCards.map((card) => (
-            <Link key={card.title} to={card.href} className="group block overflow-hidden rounded-[18px]">
+          {collectionCards.map((card, index) => (
+            <Link
+              key={card.title}
+              to={card.href}
+              className={`group block overflow-hidden rounded-[18px] ${
+                collectionCards.length % 2 === 1 && index === collectionCards.length - 1
+                  ? 'lg:col-span-2 lg:mx-auto lg:max-w-[32rem]'
+                  : ''
+              }`}
+            >
               <img
                 src={card.image}
                 alt={card.title}
@@ -48,7 +56,7 @@ function CollectionsPage() {
                   className="aspect-[4/5] w-full object-cover"
                 />
                 <div className="pt-4">
-                  <p className="text-base font-medium">{product.name}</p>
+                  <p className="product-name-animated text-base font-medium">{product.name}</p>
                 </div>
               </Link>
             ))}

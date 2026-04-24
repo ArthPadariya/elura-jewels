@@ -1,11 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logoImage from '../assets/brand/elura-logo-transparent.png'
 import { useStore } from '../context/StoreContext.jsx'
 
 function AuthPage({ mode = 'login' }) {
+  const location = useLocation()
   const navigate = useNavigate()
   const { login, googleLogin } = useStore()
   const isLogin = mode === 'login'
+  const redirectTo = location.state?.redirectTo
+  const notice = location.state?.notice
 
   return (
     <div className="section-spacing">
@@ -36,6 +39,13 @@ function AuthPage({ mode = 'login' }) {
             <h2 className="mt-4 text-3xl sm:text-4xl">
               {isLogin ? 'Welcome back to ELURA' : 'Create your ELURA account'}
             </h2>
+
+            {notice ? (
+              <p className="mt-6 rounded-[16px] bg-white/65 px-5 py-4 text-sm text-muted shadow-[0_12px_30px_rgba(27,24,19,0.05)]">
+                {notice}
+              </p>
+            ) : null}
+
             <form
               className="mt-10 space-y-7"
               onSubmit={(event) => {
@@ -44,7 +54,7 @@ function AuthPage({ mode = 'login' }) {
                   name: isLogin ? 'Olivia Bennett' : 'New ELURA Customer',
                   email: isLogin ? 'olivia.bennett@example.com' : 'welcome@elura.uk',
                 })
-                navigate('/profile')
+                navigate(redirectTo || '/profile')
               }}
             >
               {!isLogin && (
@@ -87,7 +97,7 @@ function AuthPage({ mode = 'login' }) {
                   type="button"
                   onClick={() => {
                     googleLogin()
-                    navigate('/profile')
+                    navigate(redirectTo || '/profile')
                   }}
                   className="btn-secondary w-full justify-center sm:w-auto"
                 >

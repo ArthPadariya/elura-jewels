@@ -103,6 +103,13 @@ export const collectionCards = [
     href: '/shop?category=Bangles',
     image: braceletDisplay,
   },
+  {
+    title: 'Bracelets',
+    subtitle: 'Refined chain silhouettes designed for light layering and daily wear.',
+    category: 'Bracelets',
+    href: '/shop?category=Bracelets',
+    image: braceletOne,
+  },
 ]
 
 export const productFilters = ['All', 'Necklaces', 'Earrings', 'Rings', 'Bracelets', 'Bangles']

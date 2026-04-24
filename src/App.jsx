@@ -5,6 +5,7 @@ import AboutPage from './pages/AboutPage.jsx'
 import AuthPage from './pages/AuthPage.jsx'
 import CollectionsPage from './pages/CollectionsPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
+import CheckoutPage from './pages/CheckoutPage.jsx'
 import FaqPage from './pages/FaqPage.jsx'
 import HomePage from './pages/HomePage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
@@ -24,6 +25,7 @@ function App() {
             <Route path="/collections" element={<CollectionsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />

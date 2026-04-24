@@ -60,11 +60,11 @@ function Header({ onCartOpen }) {
       <header className={`fixed inset-x-0 top-0 z-50 transition duration-300 ${headerClasses}`}>
         <div className="section-shell">
           <div className="navbar flex h-[60px] items-center justify-between gap-4 sm:h-[72px]">
-            <Link to="/" className="navbar-logo flex h-full items-center py-0">
+            <Link to="/" className="navbar-logo flex h-full items-center py-1 pr-3">
               <img
                 src={logoImage}
                 alt="ELURA Jewels"
-                className="block h-[32px] w-auto object-contain min-[481px]:h-[36px] md:h-[40px]"
+                className="block h-[30px] w-auto object-contain min-[481px]:h-[36px] md:h-[42px] xl:h-[46px]"
               />
             </Link>
 
@@ -74,7 +74,7 @@ function Header({ onCartOpen }) {
                   key={item.label}
                   to={item.href}
                   className={({ isActive }) =>
-                    `nav-link ${isActive ? 'nav-link-active' : ''}`
+                    `nav-link link-animated ${isActive ? 'nav-link-active' : ''}`
                   }
                 >
                   {item.label}
@@ -94,7 +94,19 @@ function Header({ onCartOpen }) {
               >
                 <Search className="h-4 w-4" />
               </button>
-              <Link to="/wishlist" className="icon-button" aria-label="View wishlist">
+              <Link
+                to={user ? '/wishlist' : '/login'}
+                state={
+                  user
+                    ? undefined
+                    : {
+                        redirectTo: '/wishlist',
+                        notice: 'Please login to add items to wishlist',
+                      }
+                }
+                className="icon-button"
+                aria-label="View wishlist"
+              >
                 <div className="relative">
                   <Heart className="h-4 w-4" />
                   {wishlistIds.length > 0 && (
@@ -224,7 +236,7 @@ function Header({ onCartOpen }) {
               key={item.label}
               to={item.href}
               className={({ isActive }) =>
-                `nav-link ${isActive ? 'nav-link-active' : ''}`
+                `nav-link link-animated ${isActive ? 'nav-link-active' : ''}`
               }
             >
               {item.label}
@@ -240,7 +252,18 @@ function Header({ onCartOpen }) {
                 className="search-shell text-sm"
               />
               <div className="flex items-center gap-3">
-                <Link to="/wishlist" className="line-link flex-1 justify-center">
+                <Link
+                  to={user ? '/wishlist' : '/login'}
+                  state={
+                    user
+                      ? undefined
+                      : {
+                          redirectTo: '/wishlist',
+                          notice: 'Please login to add items to wishlist',
+                        }
+                  }
+                  className="line-link flex-1 justify-center"
+                >
                   Wishlist
                 </Link>
                 <button type="button" onClick={onCartOpen} className="line-link flex-1 justify-center">

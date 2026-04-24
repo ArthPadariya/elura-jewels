@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useStore } from '../context/StoreContext.jsx'
 import CartDrawer from './CartDrawer.jsx'
@@ -16,25 +16,25 @@ function ScrollToTop() {
 }
 
 function SiteLayout() {
-  const [cartOpen, setCartOpen] = useState(false)
   const location = useLocation()
-  const { cartItems, updateCartQuantity, removeFromCart } = useStore()
+  const { cartItems, closeCart, isCartOpen, openCart, updateCartQuantity, removeFromCart } =
+    useStore()
 
   return (
     <div className="page-shell">
       <ScrollToTop />
       <Header
         key={`${location.pathname}${location.search}`}
-        onCartOpen={() => setCartOpen(true)}
+        onCartOpen={openCart}
       />
       <main className="pt-[72px] sm:pt-[84px]">
         <Outlet />
       </main>
       <FooterSection />
       <CartDrawer
-        isOpen={cartOpen}
+        isOpen={isCartOpen}
         items={cartItems}
-        onClose={() => setCartOpen(false)}
+        onClose={closeCart}
         onUpdateQuantity={updateCartQuantity}
         onRemove={removeFromCart}
       />

@@ -1,10 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import { useStore } from '../context/StoreContext.jsx'
 
 function WishlistPage() {
-  const { wishlistProducts } = useStore()
+  const { user, wishlistProducts } = useStore()
+
+  if (!user) {
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{
+          redirectTo: '/wishlist',
+          notice: 'Please login to add items to wishlist',
+        }}
+      />
+    )
+  }
 
   return (
     <div className="section-spacing">
