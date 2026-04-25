@@ -45,9 +45,9 @@ function ProductPageDetail({ product, addToCart, relatedProducts }) {
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr]">
           <section className="grid gap-4 lg:grid-cols-[6.5rem_1fr]">
             <div className="order-2 flex gap-3 lg:order-1 lg:flex-col">
-              {product.images.map((image) => (
+              {product.images.map((image, index) => (
                 <button
-                  key={image}
+                  key={`${product.id}-image-${index}`}
                   type="button"
                   onClick={() => setSelectedImage(image)}
                   className={`overflow-hidden rounded-[14px] transition ${
@@ -69,7 +69,7 @@ function ProductPageDetail({ product, addToCart, relatedProducts }) {
                 <img
                   src={selectedImage}
                   alt={product.name}
-                  className="h-[38rem] w-full object-cover transition duration-700 group-hover:scale-110"
+                  className="h-[24rem] w-full object-contain bg-linen/35 transition duration-700 group-hover:scale-105 sm:h-[32rem] sm:object-cover lg:h-[38rem]"
                 />
               </div>
             </div>
@@ -87,8 +87,8 @@ function ProductPageDetail({ product, addToCart, relatedProducts }) {
               <div>
                 <p className="section-eyebrow">Material Details</p>
                 <ul className="mt-4 space-y-2 text-sm text-muted">
-                  {product.materials.map((material) => (
-                    <li key={material}>{material}</li>
+                  {product.materials.map((material, index) => (
+                    <li key={`${product.id}-material-${index}`}>{material}</li>
                   ))}
                 </ul>
               </div>
@@ -136,8 +136,8 @@ function ProductPageDetail({ product, addToCart, relatedProducts }) {
             <div className="mt-8 border-t border-black/8 pt-7">
               <p className="section-eyebrow">Additional Product Info</p>
               <ul className="mt-4 space-y-2 text-sm text-muted">
-                {product.details.map((detail) => (
-                  <li key={detail}>{detail}</li>
+                {product.details.map((detail, index) => (
+                  <li key={`${product.id}-detail-${index}`}>{detail}</li>
                 ))}
               </ul>
             </div>

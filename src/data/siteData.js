@@ -3,8 +3,10 @@ import braceletOne from '../assets/photos/bracelet-1.jpg'
 import braceletTwo from '../assets/photos/bracelet-2.jpg'
 import braceletDisplay from '../assets/photos/bracelet-display.jpg'
 import categoryDisplay from '../assets/photos/category-display.jpg'
+import chokerSet from '../assets/photos/choker.jpeg'
 import earringsOne from '../assets/photos/earrings-1.jpg'
 import earringsTwo from '../assets/photos/earrings-2.jpg'
+import emeraldSet from '../assets/photos/emerald.jpeg'
 import heroLuxuryBangles from '../assets/photos/hero-luxury-bangles-v2.png'
 import heroLuxuryEarrings from '../assets/photos/hero-luxury-earrings-v2.png'
 import heroLuxuryNecklace from '../assets/photos/hero-luxury-necklace-v2.png'
@@ -17,6 +19,7 @@ import necklaceOne from '../assets/photos/necklace-1.jpg'
 import necklaceTwo from '../assets/photos/necklace-2.jpg'
 import ringOne from '../assets/photos/ring-1.jpg'
 import ringTwo from '../assets/photos/ring-2.jpg'
+import rubySet from '../assets/photos/ruby.jpeg'
 
 export const formatCurrency = (price) =>
   new Intl.NumberFormat('en-GB', {
@@ -39,6 +42,8 @@ export const heroSlides = [
     id: 'slide-1',
     label: 'ELURA Collection',
     image: heroLuxuryNecklace,
+    mobileObjectPosition: '72% center',
+    desktopObjectPosition: 'center center',
     heading: 'Modern & Contemporary Jewellery',
     subtext: 'Crafted with precision and softened by a quieter, luxury finish.',
     ctaLabel: 'Shop Collection',
@@ -48,6 +53,8 @@ export const heroSlides = [
     id: 'slide-2',
     label: 'Bridal Collection',
     image: heroLuxuryRings,
+    mobileObjectPosition: '66% center',
+    desktopObjectPosition: 'center center',
     heading: 'Bridal pieces with polished, enduring detail',
     subtext: 'Signature rings and luminous settings designed for modern ceremonies and lasting wear.',
     ctaLabel: 'Explore Bridal Styles',
@@ -57,6 +64,8 @@ export const heroSlides = [
     id: 'slide-3',
     label: 'Everyday Luxury',
     image: heroLuxuryEarrings,
+    mobileObjectPosition: '62% center',
+    desktopObjectPosition: 'center center',
     heading: 'Everyday Luxury',
     subtext: 'Fine earrings and pendants made to move easily from weekday dressing into evening occasions.',
     ctaLabel: 'View Earrings',
@@ -66,6 +75,8 @@ export const heroSlides = [
     id: 'slide-4',
     label: 'Signature Pieces',
     image: heroLuxuryBangles,
+    mobileObjectPosition: '58% center',
+    desktopObjectPosition: 'center center',
     heading: 'Signature bangles with clean, sculptural shine',
     subtext: 'Contemporary gold forms with refined emerald accents and an editorial sense of restraint.',
     ctaLabel: 'Shop Bangles',
@@ -115,6 +126,90 @@ export const collectionCards = [
 export const productFilters = ['All', 'Necklaces', 'Earrings', 'Rings', 'Bracelets', 'Bangles']
 
 export const products = [
+  {
+    id: 9,
+    slug: 'emerald-necklace-set',
+    name: 'Emerald Necklace Set',
+    category: 'Necklaces',
+    price: 145,
+    description:
+      'A polished emerald-toned necklace set designed to bring a richer ceremonial finish to evening dressing and occasion wear.',
+    materials: [
+      'Gold-tone alloy setting',
+      'Emerald-toned stonework',
+      'Matching earrings included',
+    ],
+    details: [
+      'Presented as a coordinated jewellery set',
+      'Designed for wedding events and festive styling',
+      'Store in a dry pouch after wear',
+    ],
+    images: [emeraldSet, emeraldSet, emeraldSet],
+    reviews: [
+      {
+        name: 'Sana R.',
+        rating: 5,
+        date: '14 Apr 2026',
+        content: 'The emerald colour is striking and the set feels beautifully balanced in person.',
+      },
+    ],
+  },
+  {
+    id: 10,
+    slug: 'royal-ruby-bridal-set',
+    name: 'Royal Ruby Bridal Set',
+    category: 'Necklaces',
+    price: 225,
+    description:
+      'A bridal jewellery set with ruby-toned stones and warm gold detailing, created for statement ceremonial styling.',
+    materials: [
+      'Gold-tone bridal setting',
+      'Ruby-toned crystal stones',
+      'Matching drop earrings included',
+    ],
+    details: [
+      'Crafted for bridal and reception looks',
+      'Structured profile with rich colour depth',
+      'Keep away from fragrance and moisture',
+    ],
+    images: [rubySet, rubySet, rubySet],
+    reviews: [
+      {
+        name: 'Priya M.',
+        rating: 5,
+        date: '09 Apr 2026',
+        content: 'A beautiful bridal set with a strong ruby tone and a very polished finish.',
+      },
+    ],
+  },
+  {
+    id: 11,
+    slug: 'heritage-choker-set',
+    name: 'Heritage Choker Set',
+    category: 'Necklaces',
+    price: 179,
+    description:
+      'A heritage-inspired choker set with a close neckline fit, designed for richer traditional styling with a premium finish.',
+    materials: [
+      'Gold-tone choker structure',
+      'Statement stone detailing',
+      'Matching earrings included',
+    ],
+    details: [
+      'Sits neatly at the neckline for occasion wear',
+      'Ideal for bridal, festive, and formal styling',
+      'Wipe clean with a soft cloth after use',
+    ],
+    images: [chokerSet, chokerSet, chokerSet],
+    reviews: [
+      {
+        name: 'Aisha K.',
+        rating: 4,
+        date: '17 Apr 2026',
+        content: 'The choker shape looks elegant on and the detailing gives it a more heritage feel.',
+      },
+    ],
+  },
   {
     id: 1,
     slug: 'aurelia-emerald-collar',
@@ -365,7 +460,12 @@ export const products = [
   },
 ]
 
-export const homeFeaturedProducts = products.slice(0, 4)
+export const homeFeaturedProducts = [
+  products[0],
+  products[1],
+  products[2],
+  products[8],
+]
 
 export const brandStory = {
   image: categoryDisplay,
@@ -484,11 +584,7 @@ export const footerGroups = {
     { label: 'Bracelets', href: '/shop?category=Bracelets' },
     { label: 'Bangles', href: '/shop?category=Bangles' },
   ],
-  ABOUT: [
-    { label: 'Our Story', href: '/about' },
-    { label: 'Craftsmanship', href: '/about' },
-    { label: 'Sustainability', href: '/about' },
-  ],
+  ABOUT: [{ label: 'About', href: '/about' }],
   'CUSTOMER CARE': [
     { label: 'Shipping & Returns', href: '/faq' },
     { label: 'FAQs', href: '/faq' },

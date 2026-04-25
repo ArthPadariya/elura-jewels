@@ -21,7 +21,7 @@ function FinalCtaSection({ banners }) {
     <section className="section-spacing">
       <div className="section-shell">
         <Reveal className="overflow-hidden rounded-[18px]">
-          <div className="relative h-[24rem] overflow-hidden bg-linen sm:h-[28rem]">
+          <div className="relative h-[22rem] overflow-hidden bg-linen sm:h-[26rem] lg:h-[28rem]">
             {banners.map((banner, index) => {
               const isActive = index === activeIndex
 
@@ -51,7 +51,7 @@ function FinalCtaSection({ banners }) {
                     <img
                       src={banner.image}
                       alt={banner.heading}
-                      className={`h-full w-full object-cover transition-transform duration-[5000ms] ${
+                      className={`h-full w-full object-contain object-center bg-linen/35 p-8 transition-transform duration-[5000ms] ${
                         isActive ? 'scale-105' : 'scale-100'
                       }`}
                     />

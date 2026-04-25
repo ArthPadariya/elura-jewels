@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import logoImage from '../assets/brand/elura-logo-transparent.png'
+import logoImage from '../assets/brand/elura-logo.svg'
 import { useStore } from '../context/StoreContext.jsx'
 
 function AuthPage({ mode = 'login' }) {

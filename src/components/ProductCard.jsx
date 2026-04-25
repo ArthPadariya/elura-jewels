@@ -16,12 +16,12 @@ function ProductCard({ product }) {
           <img
             src={product.images[0]}
             alt={product.name}
-            className="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.04] group-hover:opacity-0"
+            className="aspect-[4/5] w-full object-cover transition-[transform,opacity] duration-300 md:duration-700 md:group-hover:scale-[1.04] md:group-hover:opacity-0"
           />
           <img
             src={product.images[1]}
             alt={`${product.name} alternate view`}
-            className="absolute inset-0 aspect-[4/5] h-full w-full object-cover opacity-0 transition duration-700 group-hover:scale-[1.04] group-hover:opacity-100"
+            className="pointer-events-none absolute inset-0 aspect-[4/5] h-full w-full object-cover opacity-0 transition-[transform,opacity] duration-300 md:duration-700 md:group-hover:scale-[1.04] md:group-hover:opacity-100"
           />
           <button
             type="button"

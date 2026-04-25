@@ -8,11 +8,13 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top, rgba(198, 165, 92, 0.09), transparent 34%),
     linear-gradient(180deg, #f8f6f2 0%, #faf8f4 100%);
@@ -40,6 +42,7 @@ img {
 @layer base {
   #root {
     min-height: 100vh;
+    overflow-x: clip;
   }
 
   h1,
@@ -49,6 +52,8 @@ img {
     font-family: "Playfair Display", Georgia, serif;
     letter-spacing: -0.03em;
     color: #1b1813;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   p {
@@ -69,11 +74,11 @@ img {
 
 @layer components {
   .page-shell {
-    @apply min-h-screen bg-ivory text-ink;
+    @apply min-h-screen overflow-x-clip bg-ivory text-ink;
   }
 
   .section-shell {
-    @apply mx-auto w-full max-w-[88rem] px-5 sm:px-7 lg:px-12;
+    @apply mx-auto w-full max-w-[88rem] min-w-0 px-5 sm:px-7 lg:px-12;
   }
 
   .section-spacing {
@@ -101,7 +106,7 @@ img {
   }
 
   .nav-link {
-    @apply text-[12px] font-medium uppercase tracking-[0.32em] text-ink transition duration-300 hover:text-gold;
+    @apply text-[12px] font-medium uppercase tracking-[0.32em] leading-[1.55] text-ink transition duration-300 hover:text-gold;
   }
 
   .nav-link-active {
@@ -109,7 +114,7 @@ img {
   }
 
   .footer-link {
-    @apply inline-block text-muted transition duration-300 hover:text-gold;
+    @apply block w-fit text-muted transition duration-300 hover:text-gold;
   }
 
   .input-shell {

@@ -15,7 +15,7 @@ function CollectionsPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           {collectionCards.map((card, index) => (
             <Link
-              key={card.title}
+              key={`${card.href}-${index}`}
               to={card.href}
               className={`group block overflow-hidden rounded-[18px] ${
                 collectionCards.length % 2 === 1 && index === collectionCards.length - 1

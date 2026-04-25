@@ -29,7 +29,7 @@ function CategorySection({ cards }) {
 
           <div className="grid gap-5">
             {cards.slice(1).map((card, index) => (
-              <Reveal key={card.title} delay={index * 80}>
+              <Reveal key={`${card.href}-${index}`} delay={index * 80}>
                 <Link to={card.href} className="group block overflow-hidden rounded-[18px]">
                   <img
                     src={card.image}

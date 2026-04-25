@@ -14,7 +14,7 @@ function AboutPage() {
         <div className="grid gap-8">
           {aboutPageContent.blocks.map((block, index) => (
             <section
-              key={block.title}
+              key={`${block.title}-${index}`}
               className={`grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-16 ${
                 index % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''
               }`}

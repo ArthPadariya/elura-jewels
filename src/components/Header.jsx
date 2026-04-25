@@ -8,7 +8,7 @@ import {
 } from 'lucide-react'
 import { useDeferredValue, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import logoImage from '../assets/brand/elura-logo-transparent.png'
+import logoImage from '../assets/brand/elura-logo.svg'
 import { navigationItems } from '../data/siteData.js'
 import { useStore } from '../context/StoreContext.jsx'
 
@@ -42,8 +42,8 @@ function Header({ onCartOpen }) {
         .slice(0, 5)
 
   const headerClasses = isScrolled
-    ? 'border-b border-black/5 bg-ivory/88 shadow-[0_18px_38px_rgba(27,24,19,0.04)] backdrop-blur-xl'
-    : 'border-b border-transparent bg-transparent'
+    ? 'border-b border-black/8 bg-[rgba(248,246,242,0.97)] shadow-[0_16px_34px_rgba(27,24,19,0.05)] backdrop-blur-[3px]'
+    : 'border-b border-black/6 bg-[rgba(248,246,242,0.94)] shadow-[0_10px_24px_rgba(27,24,19,0.03)] backdrop-blur-[2px]'
 
   const handleSearchSubmit = (event) => {
     event.preventDefault()
@@ -60,12 +60,15 @@ function Header({ onCartOpen }) {
       <header className={`fixed inset-x-0 top-0 z-50 transition duration-300 ${headerClasses}`}>
         <div className="section-shell">
           <div className="navbar flex h-[60px] items-center justify-between gap-4 sm:h-[72px]">
-            <Link to="/" className="navbar-logo flex h-full items-center py-1 pr-3">
+            <Link to="/" className="navbar-logo flex h-full items-center gap-2.5 py-1 pr-3 sm:gap-3">
               <img
                 src={logoImage}
                 alt="ELURA Jewels"
-                className="block h-[30px] w-auto object-contain min-[481px]:h-[36px] md:h-[42px] xl:h-[46px]"
+                className="logo block h-[40px] w-auto object-contain bg-transparent sm:h-[44px] lg:h-[52px]"
               />
+              <span className="font-serif text-[15px] font-medium uppercase tracking-[0.1em] text-gold sm:text-[17px] lg:text-[21px]">
+                ELURA
+              </span>
             </Link>
 
             <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
@@ -154,14 +157,14 @@ function Header({ onCartOpen }) {
       </header>
 
       <div
-        className={`fixed inset-0 z-[60] bg-ink/18 backdrop-blur-md transition duration-300 ${
+        className={`fixed inset-0 z-[60] bg-[rgba(27,24,19,0.18)] backdrop-blur-[2px] transition duration-300 ${
           searchOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={() => setSearchOpen(false)}
       />
 
       <div
-        className={`fixed inset-x-5 top-4 z-[70] mx-auto w-full max-w-4xl transition duration-300 sm:top-6 ${
+        className={`fixed left-1/2 top-4 z-[70] w-[calc(100%-2.5rem)] max-w-4xl -translate-x-1/2 transition duration-300 sm:top-6 sm:w-[calc(100%-3rem)] ${
           searchOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
         }`}
       >
@@ -219,29 +222,32 @@ function Header({ onCartOpen }) {
       </div>
 
       <div
-        className={`fixed inset-0 z-40 bg-black/20 transition lg:hidden ${
+        className={`fixed inset-0 z-[61] bg-black/30 transition lg:hidden ${
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={() => setMenuOpen(false)}
       />
 
       <div
-        className={`fixed inset-x-4 top-[68px] z-50 rounded-[18px] bg-ivory/98 p-5 shadow-[0_20px_40px_rgba(27,24,19,0.08)] transition sm:top-[80px] lg:hidden ${
+        className={`fixed inset-x-0 bottom-0 top-[60px] z-[62] overflow-y-auto bg-[rgba(248,246,242,0.985)] px-5 py-6 shadow-[0_20px_40px_rgba(27,24,19,0.08)] transition sm:top-[72px] sm:px-7 lg:hidden ${
           menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0 pointer-events-none'
         }`}
       >
         <div className="flex flex-col gap-4">
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.label}
-              to={item.href}
-              className={({ isActive }) =>
-                `nav-link link-animated ${isActive ? 'nav-link-active' : ''}`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          <nav className="flex flex-col gap-3">
+            {navigationItems.map((item) => (
+              <NavLink
+                key={`${item.href}-${item.label}`}
+                to={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) =>
+                  `nav-link block w-full py-3 leading-[1.65] ${isActive ? 'nav-link-active' : ''}`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
 
           <div className="thin-divider pt-4">
             <form onSubmit={handleSearchSubmit} className="space-y-3">
@@ -251,9 +257,10 @@ function Header({ onCartOpen }) {
                 placeholder="Search jewellery..."
                 className="search-shell text-sm"
               />
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3">
                 <Link
                   to={user ? '/wishlist' : '/login'}
+                  onClick={() => setMenuOpen(false)}
                   state={
                     user
                       ? undefined
@@ -262,16 +269,24 @@ function Header({ onCartOpen }) {
                           notice: 'Please login to add items to wishlist',
                         }
                   }
-                  className="line-link flex-1 justify-center"
+                  className="line-link w-full justify-between"
                 >
                   Wishlist
                 </Link>
-                <button type="button" onClick={onCartOpen} className="line-link flex-1 justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    onCartOpen()
+                  }}
+                  className="line-link w-full justify-between"
+                >
                   Cart
                 </button>
                 <Link
                   to={user ? '/profile' : '/login'}
-                  className="line-link flex-1 justify-center"
+                  onClick={() => setMenuOpen(false)}
+                  className="line-link w-full justify-between"
                 >
                   Profile
                 </Link>

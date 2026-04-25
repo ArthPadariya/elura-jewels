@@ -19,7 +19,7 @@ function HeroSection({ slides }) {
 
   return (
     <section className="relative">
-      <div className="relative h-[60vh] min-h-[28rem] overflow-hidden min-[481px]:h-[70vh] min-[769px]:h-[76vh] sm:mx-4 sm:rounded-[14px] lg:h-[84vh] lg:rounded-[16px]">
+      <div className="relative aspect-[3/4] min-h-[29rem] overflow-hidden sm:mx-4 sm:h-[74vh] sm:rounded-[14px] sm:aspect-auto md:h-[78vh] lg:h-[84vh] lg:rounded-[16px]">
         {slides.map((slide, index) => {
           const isActive = index === activeIndex
 
@@ -33,7 +33,11 @@ function HeroSection({ slides }) {
               <img
                 src={slide.image}
                 alt={slide.heading}
-                className={`h-full w-full object-cover object-top min-[769px]:object-center transition-transform duration-[7000ms] ${
+                style={{
+                  '--mobile-object-position': slide.mobileObjectPosition ?? 'center center',
+                  '--desktop-object-position': slide.desktopObjectPosition ?? 'center center',
+                }}
+                className={`h-full w-full object-cover [object-position:var(--mobile-object-position)] md:[object-position:var(--desktop-object-position)] transition-transform duration-[7000ms] ${
                   isActive ? 'scale-105' : 'scale-100'
                 }`}
               />

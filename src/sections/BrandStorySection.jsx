@@ -27,9 +27,9 @@ function BrandStorySection({ story }) {
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {story.features.map((feature) => (
+              {story.features.map((feature, index) => (
                 <div
-                  key={feature}
+                  key={`feature-${index}`}
                   className="rounded-[16px] bg-white/55 px-5 py-4 text-sm text-muted"
                 >
                   {feature}

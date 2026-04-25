@@ -20,7 +20,7 @@ function FaqPage() {
             const isOpen = index === openIndex
 
             return (
-              <article key={item.question} className="border-b border-black/8">
+              <article key={`${item.question}-${index}`} className="border-b border-black/8">
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
