@@ -1,10 +1,26 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
 import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from 'firebase/auth'
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from 'firebase/firestore'
+import {
   accountOrders,
   homeFeaturedProducts as fallbackHomeFeaturedProducts,
   products as fallbackProducts,
 } from '../data/siteData.js'
+import { auth, db, googleProvider, hasFirebaseConfig } from '../lib/firebase.js'
 import { getShopifyProducts } from '../lib/shopify.js'
 
 const StoreContext = createContext(null)
@@ -87,6 +103,66 @@ const readStoredValue = (key, fallback) => {
   }
 }
 
+const ensureFirebaseReady = () => {
+  if (!auth || !db || !hasFirebaseConfig) {
+    throw new Error('Firebase configuration is missing. Add your VITE_FIREBASE_* values.')
+  }
+}
+
+const mapFirebaseUser = (firebaseUser) => {
+  if (!firebaseUser) {
+    return null
+  }
+
+  const displayName = firebaseUser.displayName?.trim()
+
+  return {
+    uid: firebaseUser.uid,
+    name: displayName || firebaseUser.email?.split('@')[0] || 'ELURA Customer',
+    email: firebaseUser.email ?? '',
+    memberSince: new Date(
+      firebaseUser.metadata.creationTime ?? Date.now(),
+    ).getFullYear().toString(),
+    loyaltyId: `ELURA-${firebaseUser.uid.slice(0, 8).toUpperCase()}`,
+  }
+}
+
+const syncUserProfile = async (firebaseUser, nameOverride) => {
+  ensureFirebaseReady()
+
+  const userRef = doc(db, 'users', firebaseUser.uid)
+  const existingUser = await getDoc(userRef)
+  const nextName = nameOverride?.trim() || firebaseUser.displayName || ''
+
+  if (!existingUser.exists()) {
+    await setDoc(userRef, {
+      uid: firebaseUser.uid,
+      email: firebaseUser.email ?? '',
+      name: nextName,
+      createdAt: serverTimestamp(),
+    })
+    return
+  }
+
+  await setDoc(
+    userRef,
+    {
+      uid: firebaseUser.uid,
+      email: firebaseUser.email ?? '',
+      name: nextName,
+    },
+    { merge: true },
+  )
+}
+
+const syncUserProfileSafely = async (firebaseUser, nameOverride) => {
+  try {
+    await syncUserProfile(firebaseUser, nameOverride)
+  } catch (error) {
+    console.error('Failed to sync Firebase user profile', error)
+  }
+}
+
 function StoreProvider({ children }) {
   const [products, setProducts] = useState(fallbackProducts)
   const [isProductsLoading, setIsProductsLoading] = useState(true)
@@ -95,6 +171,7 @@ function StoreProvider({ children }) {
     readStoredValue('elura-wishlist', []),
   )
   const [user, setUser] = useState(() => readStoredValue('elura-user', null))
+  const [isAuthReady, setIsAuthReady] = useState(!hasFirebaseConfig)
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
@@ -138,6 +215,19 @@ function StoreProvider({ children }) {
     return () => {
       isActive = false
     }
+  }, [])
+
+  useEffect(() => {
+    if (!auth || !hasFirebaseConfig) {
+      return undefined
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(mapFirebaseUser(firebaseUser))
+      setIsAuthReady(true)
+    })
+
+    return unsubscribe
   }, [])
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
@@ -211,25 +301,60 @@ function StoreProvider({ children }) {
     )
   }
 
-  const login = ({ name, email }) => {
-    setUser({
-      name,
-      email,
-      memberSince: '2025',
-      loyaltyId: 'ELURA-UK-2048',
-    })
+  const login = async ({ email, password }) => {
+    ensureFirebaseReady()
+
+    const credential = await signInWithEmailAndPassword(auth, email, password)
+    await syncUserProfileSafely(credential.user)
+    const nextUser = mapFirebaseUser(credential.user)
+    setUser(nextUser)
+    return nextUser
   }
 
-  const googleLogin = () => {
-    setUser({
-      name: 'Amelia Hart',
-      email: 'amelia.hart@example.com',
-      memberSince: '2025',
-      loyaltyId: 'ELURA-UK-2048',
+  const signup = async ({ name, email, password }) => {
+    ensureFirebaseReady()
+
+    const credential = await createUserWithEmailAndPassword(auth, email, password)
+
+    if (name?.trim()) {
+      await updateProfile(credential.user, {
+        displayName: name.trim(),
+      })
+    }
+
+    await syncUserProfileSafely(credential.user, name)
+    const nextUser = mapFirebaseUser({
+      ...credential.user,
+      displayName: name?.trim() || credential.user.displayName,
     })
+    setUser(nextUser)
+    return nextUser
   }
 
-  const logout = () => setUser(null)
+  const googleLogin = async () => {
+    ensureFirebaseReady()
+
+    const credential = await signInWithPopup(auth, googleProvider)
+    await syncUserProfileSafely(credential.user)
+    const nextUser = mapFirebaseUser(credential.user)
+    setUser(nextUser)
+    return nextUser
+  }
+
+  const forgotPassword = async (email) => {
+    ensureFirebaseReady()
+    await sendPasswordResetEmail(auth, email)
+  }
+
+  const logout = async () => {
+    if (!auth || !hasFirebaseConfig) {
+      setUser(null)
+      return
+    }
+
+    await signOut(auth)
+    setUser(null)
+  }
 
   return (
     <StoreContext.Provider
@@ -237,6 +362,7 @@ function StoreProvider({ children }) {
         products,
         homeFeaturedProducts,
         isProductsLoading,
+        isAuthReady,
         cartItems,
         cartCount,
         cartSubtotal,
@@ -253,7 +379,9 @@ function StoreProvider({ children }) {
         clearCart,
         toggleWishlist,
         login,
+        signup,
         googleLogin,
+        forgotPassword,
         logout,
       }}
     >
