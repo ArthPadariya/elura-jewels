@@ -1,10 +1,12 @@
 import { startTransition, useDeferredValue } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
+import { useStore } from '../context/StoreContext.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
-import { productFilters, products } from '../data/siteData.js'
+import { productFilters } from '../data/siteData.js'
 
 function ShopPage() {
+  const { products, isProductsLoading } = useStore()
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('q') ?? ''
   const deferredQuery = useDeferredValue(searchQuery)
@@ -82,6 +84,7 @@ function ShopPage() {
                   {filteredProducts.length} product{filteredProducts.length === 1 ? '' : 's'}
                 </p>
                 <p>{activeCategory === 'All' ? 'All categories' : activeCategory}</p>
+                {isProductsLoading && <p>Loading products...</p>}
               </div>
             </div>
           </div>

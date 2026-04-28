@@ -1,8 +1,77 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from 'react'
-import { accountOrders, products } from '../data/siteData.js'
+import {
+  accountOrders,
+  homeFeaturedProducts as fallbackHomeFeaturedProducts,
+  products as fallbackProducts,
+} from '../data/siteData.js'
+import { getShopifyProducts } from '../lib/shopify.js'
 
 const StoreContext = createContext(null)
+
+const normalizeValue = (value) => value?.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') ?? ''
+
+const inferCategory = (fallbackProduct, handle, title) => {
+  if (fallbackProduct?.category) {
+    return fallbackProduct.category
+  }
+
+  const subject = `${handle} ${title}`.toLowerCase()
+
+  if (subject.includes('bangle')) {
+    return 'Bangles'
+  }
+
+  if (subject.includes('bracelet')) {
+    return 'Bracelets'
+  }
+
+  if (subject.includes('earring') || subject.includes('stud')) {
+    return 'Earrings'
+  }
+
+  if (subject.includes('ring')) {
+    return 'Rings'
+  }
+
+  return 'Necklaces'
+}
+
+const buildImages = (primaryImage, fallbackImages = []) => {
+  const images = [primaryImage, ...fallbackImages].filter(Boolean)
+
+  while (images.length < 3) {
+    images.push(images[images.length - 1] ?? '')
+  }
+
+  return images.slice(0, 3)
+}
+
+const mapShopifyProduct = (node) => {
+  const fallbackProduct = fallbackProducts.find(
+    (item) =>
+      item.slug === node.handle ||
+      normalizeValue(item.name) === normalizeValue(node.title),
+  )
+  const primaryImage = node.images?.edges?.[0]?.node?.url ?? fallbackProduct?.images?.[0] ?? ''
+  const amount = node.variants?.edges?.[0]?.node?.price?.amount
+  const price = Number.parseFloat(amount ?? fallbackProduct?.price ?? 0)
+
+  return {
+    id: fallbackProduct?.id ?? node.id,
+    slug: node.handle ?? fallbackProduct?.slug ?? normalizeValue(node.title),
+    name: node.title ?? fallbackProduct?.name ?? 'ELURA Product',
+    category: inferCategory(fallbackProduct, node.handle ?? '', node.title ?? ''),
+    price: Number.isNaN(price) ? 0 : price,
+    description:
+      fallbackProduct?.description ??
+      'Selected from the ELURA collection with premium finishing and refined detail.',
+    materials: fallbackProduct?.materials ?? ['Material details available on request'],
+    details: fallbackProduct?.details ?? ['Presented in ELURA packaging'],
+    images: buildImages(primaryImage, fallbackProduct?.images?.slice(1)),
+    reviews: fallbackProduct?.reviews ?? [],
+  }
+}
 
 const readStoredValue = (key, fallback) => {
   const value = window.localStorage.getItem(key)
@@ -19,6 +88,8 @@ const readStoredValue = (key, fallback) => {
 }
 
 function StoreProvider({ children }) {
+  const [products, setProducts] = useState(fallbackProducts)
+  const [isProductsLoading, setIsProductsLoading] = useState(true)
   const [cartItems, setCartItems] = useState(() => readStoredValue('elura-cart', []))
   const [wishlistIds, setWishlistIds] = useState(() =>
     readStoredValue('elura-wishlist', []),
@@ -43,6 +114,32 @@ function StoreProvider({ children }) {
     window.localStorage.removeItem('elura-user')
   }, [user])
 
+  useEffect(() => {
+    let isActive = true
+
+    const loadProducts = async () => {
+      try {
+        const shopifyProducts = await getShopifyProducts()
+
+        if (isActive && shopifyProducts.length > 0) {
+          setProducts(shopifyProducts.map(mapShopifyProduct))
+        }
+      } catch (error) {
+        console.error('Failed to load Shopify products', error)
+      } finally {
+        if (isActive) {
+          setIsProductsLoading(false)
+        }
+      }
+    }
+
+    loadProducts()
+
+    return () => {
+      isActive = false
+    }
+  }, [])
+
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
   const cartSubtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -50,6 +147,17 @@ function StoreProvider({ children }) {
   )
 
   const wishlistProducts = products.filter((product) => wishlistIds.includes(product.id))
+  const homeFeaturedProducts = fallbackHomeFeaturedProducts
+    .map((featuredProduct) => products.find((product) => product.slug === featuredProduct.slug))
+    .filter(Boolean)
+
+  while (homeFeaturedProducts.length < 4 && homeFeaturedProducts.length < products.length) {
+    const nextProduct = products[homeFeaturedProducts.length]
+
+    if (nextProduct && !homeFeaturedProducts.some((product) => product.id === nextProduct.id)) {
+      homeFeaturedProducts.push(nextProduct)
+    }
+  }
 
   const openCart = () => setIsCartOpen(true)
   const closeCart = () => setIsCartOpen(false)
@@ -127,6 +235,8 @@ function StoreProvider({ children }) {
     <StoreContext.Provider
       value={{
         products,
+        homeFeaturedProducts,
+        isProductsLoading,
         cartItems,
         cartCount,
         cartSubtotal,

@@ -8,8 +8,22 @@ import { useStore } from '../context/StoreContext.jsx'
 
 function ProductPage() {
   const { slug } = useParams()
-  const { addToCart, products } = useStore()
+  const { addToCart, products, isProductsLoading } = useStore()
   const product = products.find((item) => item.slug === slug)
+
+  if (!product && isProductsLoading) {
+    return (
+      <div className="section-spacing">
+        <div className="section-shell">
+          <SectionHeading
+            eyebrow="Product"
+            title="Loading product"
+            description="Fetching the latest product details from ELURA."
+          />
+        </div>
+      </div>
+    )
+  }
 
   if (!product) {
     return (

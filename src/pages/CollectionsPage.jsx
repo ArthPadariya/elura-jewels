@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import SectionHeading from '../components/SectionHeading.jsx'
-import { collectionCards, homeFeaturedProducts } from '../data/siteData.js'
+import { useStore } from '../context/StoreContext.jsx'
+import { collectionCards } from '../data/siteData.js'
 
 function CollectionsPage() {
+  const { homeFeaturedProducts } = useStore()
+
   return (
     <div className="section-spacing">
       <div className="section-shell">

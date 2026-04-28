@@ -2,18 +2,20 @@ import {
   collectionCards,
   brandStory,
   heroSlides,
-  homeFeaturedProducts,
   promoBanners,
   testimonials,
 } from '../data/siteData.js'
 import BrandStorySection from '../sections/BrandStorySection.jsx'
 import CategorySection from '../sections/CategorySection.jsx'
+import { useStore } from '../context/StoreContext.jsx'
 import FinalCtaSection from '../sections/FinalCtaSection.jsx'
 import HeroSection from '../sections/HeroSection.jsx'
 import ProductSection from '../sections/ProductSection.jsx'
 import TestimonialsSection from '../sections/TestimonialsSection.jsx'
 
 function HomePage() {
+  const { homeFeaturedProducts } = useStore()
+
   return (
     <>
       <HeroSection slides={heroSlides} />
