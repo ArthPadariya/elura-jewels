@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useStore } from '../context/StoreContext.jsx'
 import CartDrawer from './CartDrawer.jsx'
 import Header from './Header.jsx'
+import WhatsAppButton from './WhatsAppButton.jsx'
 import FooterSection from '../sections/FooterSection.jsx'
 
 function ScrollToTop() {
@@ -38,6 +39,7 @@ function SiteLayout() {
         onUpdateQuantity={updateCartQuantity}
         onRemove={removeFromCart}
       />
+      <WhatsAppButton />
     </div>
   )
 }

@@ -592,9 +592,9 @@ export const footerGroups = {
 }
 
 export const contactDetails = {
-  email: 'hello@elurajewels.co.uk',
-  phone: '+44 20 7946 2180',
-  location: 'Mayfair, London, United Kingdom',
+  email: 'info.elurajewels@gmail.com',
+  phone: '+44 7440482483',
+  location: 'West London, UK',
 }
 
 export const accountOrders = [

@@ -10,6 +10,7 @@ function ContactPage() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   return (
     <div className="section-spacing">
@@ -56,9 +57,38 @@ function ContactPage() {
           <div className="lg:pt-10">
             <form
               className="space-y-7"
-              onSubmit={(event) => {
+              onSubmit={async (event) => {
                 event.preventDefault()
-                setSubmitted(true)
+                setIsSubmitting(true)
+                setSubmitted(false)
+
+                try {
+                  const response = await fetch('http://localhost:5000/send-email', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                  })
+
+                  const data = await response.json()
+
+                  if (!response.ok) {
+                    throw new Error(data.error || 'Unable to send message right now.')
+                  }
+
+                  setSubmitted(true)
+                  setFormData({
+                    name: '',
+                    email: '',
+                    message: '',
+                  })
+                } catch (error) {
+                  console.error('Failed to send contact form', error)
+                  window.alert(error.message || 'Unable to send message right now.')
+                } finally {
+                  setIsSubmitting(false)
+                }
               }}
             >
               <div className="grid gap-5 sm:grid-cols-2">
@@ -118,13 +148,13 @@ function ContactPage() {
                 />
               </div>
 
-              <button type="submit" className="btn-primary">
+              <button type="submit" className="btn-primary" disabled={isSubmitting}>
                 Send Message
               </button>
 
               {submitted && (
                 <p className="text-sm text-muted">
-                  Thanks. Your message has been prepared successfully.
+                  Thanks. Your message has been sent successfully.
                 </p>
               )}
             </form>
